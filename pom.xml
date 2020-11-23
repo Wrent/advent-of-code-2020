@@ -1,0 +1,15 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>cz.wrent</groupId>
+    <artifactId>aoc20</artifactId>
+    <version>1</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_2.13</artifactId>
+            <version>3.2.3</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
