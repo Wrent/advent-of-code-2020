@@ -5,7 +5,7 @@ object Xmas extends App {
     val numbers = parseNumbers(input)
     for (i <- 0 to numbers.length - preamble) {
       val subarray = numbers.slice(i, i + preamble)
-      val combinations = subarray.combinations(2).toArray.map(comb => comb(0) + comb(1)).toSet
+      val combinations = subarray.combinations(2).toArray.map(_.sum).toSet
       val current = numbers(i + preamble)
       if (!combinations.contains(current)) {
         return current
