@@ -8,7 +8,20 @@ class Slope(val map: Array[Array[Char]]) {
   def depth(): Int = map.length
 }
 
-case class Coord(x: Int, y: Int)
+case class Coord(x: Int, y: Int) {
+  def get(direction: String): Coord = {
+    direction match {
+      case "N" => Coord(x, y - 1)
+      case "S" => Coord(x, y + 1)
+      case "E" => Coord(x + 1, y)
+      case "W" => Coord(x - 1, y)
+      case "NE" => Coord(x + 1, y - 1)
+      case "NW" => Coord(x - 1, y - 1)
+      case "SE" => Coord(x + 1, y + 1)
+      case "SW" => Coord(x - 1, y + 1)
+    }
+  }
+}
 
 object Toboggan extends App {
   def countTrees(input: String, right: Int, down: Int): Int = {
