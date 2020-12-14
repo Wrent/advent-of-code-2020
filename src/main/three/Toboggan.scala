@@ -10,15 +10,19 @@ class Slope(val map: Array[Array[Char]]) {
 
 case class Coord(x: Int, y: Int) {
   def get(direction: String): Coord = {
+    get(direction, 1)
+  }
+
+  def get(direction: String, steps: Int): Coord = {
     direction match {
-      case "N" => Coord(x, y - 1)
-      case "S" => Coord(x, y + 1)
-      case "E" => Coord(x + 1, y)
-      case "W" => Coord(x - 1, y)
-      case "NE" => Coord(x + 1, y - 1)
-      case "NW" => Coord(x - 1, y - 1)
-      case "SE" => Coord(x + 1, y + 1)
-      case "SW" => Coord(x - 1, y + 1)
+      case "N" => Coord(x, y - steps)
+      case "S" => Coord(x, y + steps)
+      case "E" => Coord(x + steps, y)
+      case "W" => Coord(x - steps, y)
+      case "NE" => Coord(x + steps, y - steps)
+      case "NW" => Coord(x - steps, y - steps)
+      case "SE" => Coord(x + steps, y + steps)
+      case "SW" => Coord(x - steps, y + steps)
     }
   }
 }
