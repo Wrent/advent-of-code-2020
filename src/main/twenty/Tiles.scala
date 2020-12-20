@@ -4,6 +4,8 @@ import three.Coord
 
 object Tiles extends App {
 
+  var mapOfTiles: Map[Coord, Tile] = Map()
+
   def findCorners(input: String): BigInt = {
     val tiles = input.split("\n\n").map(parseTile)
     val corners = tiles.filter(tile => matchesTwo(tiles, tile))
@@ -13,7 +15,8 @@ object Tiles extends App {
   def findSeaMonsters(input: String): Int = {
     val tiles = input.split("\n\n").map(parseTile)
     val corners = tiles.filter(tile => matchesTwo(tiles, tile))
-    val map: Map[Coord, Tile] = getMapOfTiles(Coord(0, 0), findNeighbours(tiles, corners(0)), tiles, Map(Coord(0, 0) -> corners(0)))
+    mapOfTiles = Map(Coord(0, 0) -> corners(0))
+    val map: Map[Coord, Tile] = getMapOfTiles(Coord(0, 0), findNeighbours(tiles, corners(0)), tiles)
     val concatenated = concatToTile(map)
     var i = 0
     var next = findSeaMonster(concatenated)
@@ -81,20 +84,20 @@ object Tiles extends App {
     tile
   }
 
-  private def getMapOfTiles(current: Coord, next: Array[(String, Tile)], tiles: Array[Tile], map: Map[Coord, Tile]): Map[Coord, Tile] = {
-    var newMap = map
-    val alreadyFoundIds = newMap.values.map(_.id).toSet
+  private def getMapOfTiles(current: Coord, next: Array[(String, Tile)], tiles: Array[Tile]): Map[Coord, Tile] = {
+    val alreadyFoundIds = mapOfTiles.values.map(_.id).toSet
     val notFoundYet = next
       .filter(n => !alreadyFoundIds.contains(n._2.id))
     notFoundYet.foreach(n => {
-      newMap = newMap + (current.get(n._1) -> rotateCorrectly(newMap(current), n._1, n._2))
+      mapOfTiles = mapOfTiles + (current.get(n._1) -> rotateCorrectly(mapOfTiles(current), n._1, n._2))
     })
     if (notFoundYet.isEmpty) {
-      return newMap
+      return mapOfTiles
     }
     notFoundYet.flatMap(n => {
-      getMapOfTiles(current.get(n._1), findNeighbours(tiles, rotateCorrectly(newMap(current), n._1, n._2)), tiles, newMap).toSeq
+      getMapOfTiles(current.get(n._1), findNeighbours(tiles, rotateCorrectly(mapOfTiles(current), n._1, n._2)), tiles).toSeq
     }).toMap
+    mapOfTiles
   }
 
   def rotateCorrectly(current: Tile, direction: String, toBeRotated: Tile): Tile = {
